@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="AutomationSuite" parallel="classes" verbose="1">
+    <test name="ContactListAppTests">
+        <classes>
+            <!-- Add your test classes here -->
+            <class name="tests.LoginPageTest"/>
+            <class name="tests.SigninPageTest"/>
+            <class name="tests.AddContactTest_1"/>
+            <class name="tests.AddContactTest_2"/>
+            <class name="tests.EditContactTest"/>
+            <class name="tests.DeleteContactTest"/>
+            <class name="tests.SessionNavigationTest"/>
+        </classes>
+    </test>
+</suite>
