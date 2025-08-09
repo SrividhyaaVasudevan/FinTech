@@ -1,0 +1,22 @@
+# Maven build output
+/target/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment / secrets (if any)
+.env
+*.properties
+
+# ExtentReports output
+test-output/
