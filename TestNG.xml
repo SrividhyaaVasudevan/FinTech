@@ -4,13 +4,12 @@
     <test name="ContactListAppTests">
         <classes>
             <!-- Add your test classes here -->
-            <class name="tests.LoginPageTest"/>
-            <class name="tests.SigninPageTest"/>
-            <class name="tests.AddContactTest_1"/>
-            <class name="tests.AddContactTest_2"/>
-            <class name="tests.EditContactTest"/>
-            <class name="tests.DeleteContactTest"/>
-            <class name="tests.SessionNavigationTest"/>
+            <class name="tests.LoginTest"/>
+            <class name="tests.AccountFunctionalityTest"/>
+            <class name="tests.FundTransferTest"/>
+            <class name="tests.LoanTest"/>
+            <class name="tests.CustomerSupportTest"/>
+            <class name="tests.UIValidationTest"/>
         </classes>
     </test>
 </suite>

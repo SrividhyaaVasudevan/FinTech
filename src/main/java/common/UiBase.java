@@ -37,6 +37,7 @@ public class UiBase{
                 .ignoring(StaleElementReferenceException.class);
 
         wait.until(ExpectedConditions.visibilityOf(element));
+        staticWait(2000);
         return isDisplayed(element);
     }
 
@@ -64,7 +65,7 @@ public class UiBase{
         }
     }
 
-    protected  void clicker(WebDriver driver, WebElement element){
+    protected  void clicker(WebElement element){
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click();", element);
     }
@@ -104,9 +105,9 @@ public class UiBase{
         element.sendKeys(Keys.BACK_SPACE);
     }
 
-    public static String generateUniqueEmail() {
-        String timeStamp = new SimpleDateFormat("MMddHHmmss").format(new Date());
-        return "srividhyaa" + timeStamp + "@test.com";
+    public static String generateUniqueUsername(String ch) {
+        String timeStamp = new SimpleDateFormat("ddHHmmss").format(new Date());
+        return "sri" + ch + timeStamp;
     }
 
     public static String generateUniquePhoneNumber() {

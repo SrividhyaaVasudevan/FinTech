@@ -33,6 +33,7 @@ public class BaseTest extends PageInitializer {
     public void setupClass() {
         try{
             driver = setup();
+            driver.get(ConfigReader.get("baseUrl"));
         }catch (Exception e){
             if (driver != null) driver.quit();
         }
@@ -40,6 +41,7 @@ public class BaseTest extends PageInitializer {
 
     @BeforeMethod
     public void setupMethod(Method method) {
+
         //clear cookies and load url
         driver.manage().deleteAllCookies();
         driver.get(ConfigReader.get("baseUrl"));
