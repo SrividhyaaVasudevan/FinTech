@@ -43,6 +43,7 @@ public class FundTransferTest extends BaseTest {
         AssertFail(accountOverviewPageAction.checkTransactionAmount(sav),"Verify Transaction balance updated");
     }
 
+    //Failing Due to issue
     @Test(priority = 1)
     public void verifyInsufficientBalance() {
         loginPageAction.login(username, password);
@@ -53,6 +54,7 @@ public class FundTransferTest extends BaseTest {
         AssertFail(!transferFundPageAction.transferSuccessMsg(), "Should Display insufficient Msg");
     }
 
+    //Failing Due to issue
     @Test
     public void verifyTransferToSameAccount() {
         loginPageAction.login(username, password);
