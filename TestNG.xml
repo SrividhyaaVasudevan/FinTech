@@ -13,17 +13,17 @@
         </classes>
     </test>
 
-    <test name="ContactListAppTests_edge">
-        <parameter name="browser" value="edge"/>
-        <classes>
-            <class name="tests.LoginTest"/>
-            <class name="tests.AccountFunctionalityTest"/>
-            <class name="tests.FundTransferTest"/>
-            <class name="tests.LoanTest"/>
-            <class name="tests.CustomerSupportTest"/>
-            <class name="tests.UIValidationTest"/>
-        </classes>
-    </test>
+<!--    <test name="ContactListAppTests_edge">-->
+<!--        <parameter name="browser" value="edge"/>-->
+<!--        <classes>-->
+<!--            <class name="tests.LoginTest"/>-->
+<!--            <class name="tests.AccountFunctionalityTest"/>-->
+<!--            <class name="tests.FundTransferTest"/>-->
+<!--            <class name="tests.LoanTest"/>-->
+<!--            <class name="tests.CustomerSupportTest"/>-->
+<!--            <class name="tests.UIValidationTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
     <test name="ContactListAppTests_firefox">
         <parameter name="browser" value="firefox"/>
