@@ -17,6 +17,3 @@ Thumbs.db
 # Environment / secrets (if any)
 .env
 *.properties
-
-# ExtentReports output
-test-output/
