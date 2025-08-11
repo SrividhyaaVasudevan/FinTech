@@ -31,12 +31,21 @@ public class UiBase{
 
     protected boolean waitUntilElementDisplayed(WebElement element) {
         Wait<WebDriver> wait = new FluentWait<>(driver)
-                .withTimeout(Duration.ofSeconds(30))
+                .withTimeout(Duration.ofSeconds(10))
                 .pollingEvery(Duration.ofMillis(200))
                 .ignoring(NoSuchElementException.class)
                 .ignoring(StaleElementReferenceException.class);
 
-        wait.until(ExpectedConditions.visibilityOf(element));
+        try{
+            wait.until(ExpectedConditions.visibilityOf(element));
+        }catch (NoSuchElementException e){
+            refresh();
+            wait.until(ExpectedConditions.visibilityOf(element));
+        }catch (Exception d){
+            refresh();
+            wait.until(ExpectedConditions.visibilityOf(element));
+        }
+
         staticWait(2000);
         return isDisplayed(element);
     }

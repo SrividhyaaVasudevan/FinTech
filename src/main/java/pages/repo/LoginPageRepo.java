@@ -13,7 +13,7 @@ public class LoginPageRepo extends UiBase {
     @FindBy(xpath = "//input[@name=\"password\"]")
     protected WebElement passwordField;
 
-    @FindBy(xpath = "//label[@name=\"username\"]")
+    @FindBy(xpath = "//*[@id=\"loginPanel\"]//b[contains(text(),\"User\")]")
     protected WebElement usernameLabel;
 
     @FindBy(xpath = "//input[@name=\"password\"]")

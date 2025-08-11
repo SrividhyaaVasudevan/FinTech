@@ -79,7 +79,9 @@ public class LoginPageAction extends LoginPageRepo {
     }
 
     public WebElement getUserNameLabelElement(){
-        return usernameField;
+        waitUntilElementDisplayed(usernameLabel);
+        staticWait(2000);
+        return usernameLabel;
     }
 
     public WebElement getPasswordLabelElement(){

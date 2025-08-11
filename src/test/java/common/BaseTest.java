@@ -31,7 +31,7 @@ public class BaseTest extends PageInitializer {
 
     @Parameters({"browser"})
     @BeforeClass
-    public void setupClass(@Optional("chrome") String browser) {
+    public void setupClass(@Optional("firefox") String browser) {
         try{
             driver = setup(browser);
             driver.get(ConfigReader.get("baseUrl"));

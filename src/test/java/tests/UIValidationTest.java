@@ -33,7 +33,9 @@ public class UIValidationTest extends BaseTest {
 
     @Test
     public void verify_font_and_theme() {
+
         String fontFamily = loginPageAction.getUserNameLabelElement().getCssValue("font-family");
+        System.out.println(fontFamily);
         AssertFail(fontFamily.toLowerCase().contains("arial") || fontFamily.toLowerCase().contains("sans-serif"),"Font Verification");
     }
 
