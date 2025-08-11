@@ -65,7 +65,8 @@ public class ExtentReportManager {
             new File(reportDir).mkdirs();
             new File(screenshotDir).mkdirs();
 
-            reportPath = reportDir + "ExtentReport_" + timestamp + ".html";
+            //reportPath = reportDir + "ExtentReport_" + timestamp + ".html";
+            reportPath = reportDir + "ExtentReport.html";
             screenshotPath = screenshotDir;
 
             // Initialize Spark Reporter
