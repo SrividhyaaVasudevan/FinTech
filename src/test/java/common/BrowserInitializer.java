@@ -15,10 +15,10 @@ import java.time.Duration;
 public class BrowserInitializer {
 
     WebDriver driver;
-    public WebDriver driverInitializer()
+    public WebDriver driverInitializer(String browserName)
     {
         // default: chrome
-        String browserName = System.getProperty("browser", "chrome").toLowerCase();
+        //String browserName = System.getProperty("browser", "chrome").toLowerCase();
 
         if (browserName.equalsIgnoreCase("chrome")) {
             chromeBrowser();
@@ -31,14 +31,14 @@ public class BrowserInitializer {
         }
 
         driver.manage().window().maximize();
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
 
         return driver;
     }
 
     public void chromeBrowser(){
-        //System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
         driver = new ChromeDriver(options);

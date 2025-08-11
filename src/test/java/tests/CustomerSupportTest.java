@@ -11,11 +11,15 @@ public class CustomerSupportTest extends BaseTest {
     private String username;
     private String password;
 
-    @BeforeClass
+    @BeforeClass(dependsOnMethods = "setupClass")
     public void dataSetup(){
-        Map<String, String> data = testData.getExcelData("signin", "validData");
-        username = loginPageAction.createAccount(data,"5");
-        password = data.get("password");
+        try{
+            Map<String, String> data = testData.getExcelData("signin", "validData");
+            username = loginPageAction.createAccount(data,"5");
+            password = data.get("password");
+        }catch (Exception e){
+            throw new RuntimeException("Failed to setup data:  " + e.getMessage(), e);
+        }
     }
 
     @Test

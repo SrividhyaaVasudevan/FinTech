@@ -13,15 +13,19 @@ public class FundTransferTest extends BaseTest {
     private String checkingAccount;
     private  String savingsAccount;
 
-    @BeforeClass
+    @BeforeClass(dependsOnMethods = "setupClass")
     public void dataSetup(){
-        Map<String, String> data = testData.getExcelData("signin", "validData");
-        username = loginPageAction.createAccount(data,"2");
-        password = data.get("password");
-        homePageAction.clickOnOpenAccount();
-        checkingAccount = openAccountPageAction.getFirstAccountNumber();
-        openAccountPageAction.selectSavingAccount();
-        savingsAccount = openAccountPageAction.clickOnOpenNewAccount();
+        try{
+            Map<String, String> data = testData.getExcelData("signin", "validData");
+            username = loginPageAction.createAccount(data, "2");
+            password = data.get("password");
+            homePageAction.clickOnOpenAccount();
+            checkingAccount = openAccountPageAction.getFirstAccountNumber();
+            openAccountPageAction.selectSavingAccount();
+            savingsAccount = openAccountPageAction.clickOnOpenNewAccount();
+        }catch (Exception e){
+            throw new RuntimeException("Failed to setup data:  " + e.getMessage(), e);
+        }
     }
 
     @Test

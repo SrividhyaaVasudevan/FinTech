@@ -31,7 +31,7 @@ public class UiBase{
 
     protected boolean waitUntilElementDisplayed(WebElement element) {
         Wait<WebDriver> wait = new FluentWait<>(driver)
-                .withTimeout(Duration.ofSeconds(10))
+                .withTimeout(Duration.ofSeconds(30))
                 .pollingEvery(Duration.ofMillis(200))
                 .ignoring(NoSuchElementException.class)
                 .ignoring(StaleElementReferenceException.class);

@@ -6,16 +6,16 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ExcelUtils {
-
     String excelName;
 
-
     public ExcelUtils(String excelName){
-        this.excelName = "testdata.xlsx";
+        this.excelName = excelName;
     }
 
     public Map<String, String> getExcelData(String sheetName, String value) {
@@ -35,6 +35,22 @@ public class ExcelUtils {
             e.printStackTrace();
         }
         return rowData;
+    }
+
+    public Object[][] provideData(String sheetName) {
+        String filePath = ConfigReader.get("ExcelDataPath");
+        Map<String, String> rowData = null;
+        try (FileInputStream fis = new FileInputStream(filePath + excelName);
+             XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
+
+            XSSFSheet sheet = workbook.getSheet(sheetName);
+
+            return getRows(sheet, 0);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private Map<String, String> getRowByReference(XSSFSheet sheet, int headerRowIndex, String referenceValue) {
@@ -57,6 +73,48 @@ public class ExcelUtils {
             String headerValue = getCellValueAsString(headerCell);
 
             Cell dataCell = targetRow.getCell(cellIndex);
+            String dataValue = getCellValueAsString(dataCell);
+
+            rowMap.put(headerValue, dataValue);
+        }
+        return rowMap;
+    }
+
+    private Object[][] getRows(XSSFSheet sheet, int headerRowIndex) {
+        int lastRowNum = sheet.getLastRowNum();
+        List<Map<String, String>> mapList = new ArrayList<>();
+
+        Row headerRow = sheet.getRow(headerRowIndex);
+        if (headerRow == null) {
+            return null; // Return empty map if header row doesn't exist
+        }
+
+        // Mapp all rows
+        for(int rowIndex = headerRowIndex + 1; rowIndex <= lastRowNum; rowIndex++){
+            Row row = sheet.getRow(rowIndex);
+            if (row == null) continue;
+            mapList.add(createRowMap(headerRow, row));
+        }
+
+        // Convert list to Object[][]
+        Object[][] objArray = new Object[mapList.size()][1];
+        for (int i = 0; i < mapList.size(); i++) {
+            objArray[i][0] = mapList.get(i);
+        }
+
+        return objArray;
+
+    }
+
+    public Map<String, String> createRowMap(Row header, Row row){
+        Map<String, String> rowMap = new HashMap<>();
+
+        // Create map with headers as keys and row values as values
+        for (int cellIndex = 0; cellIndex < row.getLastCellNum(); cellIndex++) {
+            Cell headerCell = header.getCell(cellIndex);
+            String headerValue = getCellValueAsString(headerCell);
+
+            Cell dataCell = row.getCell(cellIndex);
             String dataValue = getCellValueAsString(dataCell);
 
             rowMap.put(headerValue, dataValue);
@@ -86,6 +144,26 @@ public class ExcelUtils {
 
         return null; // No matching row found
     }
+
+    private Row getColumnData(XSSFSheet sheet, String referenceValue, int startRowIndex) {
+        int lastRowNum = sheet.getLastRowNum();
+
+        for (int rowIndex = startRowIndex; rowIndex <= lastRowNum; rowIndex++) {
+            Row row = sheet.getRow(rowIndex);
+            if (row == null) continue;
+
+            Cell firstCell = row.getCell(0);
+            String cellValue = getCellValueAsString(firstCell);
+
+            if (referenceValue.equals(cellValue)) {
+                return row;
+            }
+        }
+
+        return null; // No matching row found
+    }
+
+
 
     /**
      * Helper method to convert cell value to string, returns empty string if cell is null

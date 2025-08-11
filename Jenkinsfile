@@ -3,12 +3,6 @@ pipeline {
 
     stages {
 
-        stage('Print Params') {
-            steps {
-                echo "Browser: ${params.BROWSER}"
-            }
-        }
-
         stage('Build') {
             steps {
                 bat 'mvn clean compile'
@@ -17,7 +11,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                bat 'mvn test -Dbrowser=${BROWSER}'
+                bat 'mvn test'
             }
         }
 

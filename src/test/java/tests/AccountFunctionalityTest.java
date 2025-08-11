@@ -15,11 +15,16 @@ public class AccountFunctionalityTest extends BaseTest {
     private String checkingAccount;
     private String originalBalance;
 
-    @BeforeClass
+    @BeforeClass(dependsOnMethods = "setupClass")
     public void dataSetup(){
-        Map<String, String> data = testData.getExcelData("signin", "validData");
-        username = loginPageAction.createAccount(data,"1");
-        password = data.get("password");
+        try{
+            Map<String, String> data = testData.getExcelData("signin", "validData");
+            username = loginPageAction.createAccount(data,"1");
+            password = data.get("password");
+        }catch (Exception e){
+            throw new RuntimeException("Failed to setup data:  " + e.getMessage(), e);
+        }
+
     }
 
     @Test(priority = -1)

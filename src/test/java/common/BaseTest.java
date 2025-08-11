@@ -17,8 +17,8 @@ public class BaseTest extends PageInitializer {
 
     private WebDriver driver;
     public ExcelUtils testData = new ExcelUtils("testdata.xlsx");
-    public WebDriver setup(){
-        driver = driverInitializer();
+    public WebDriver setup(String browser){
+        driver = driverInitializer(browser);
         initializePages(driver);
         return driver;
     }
@@ -29,39 +29,48 @@ public class BaseTest extends PageInitializer {
         ExtentReportManager.initReports();
     }
 
+    @Parameters({"browser"})
     @BeforeClass
-    public void setupClass() {
+    public void setupClass(@Optional("chrome") String browser) {
         try{
-            driver = setup();
+            driver = setup(browser);
             driver.get(ConfigReader.get("baseUrl"));
         }catch (Exception e){
-            if (driver != null) driver.quit();
+            if (driver != null){
+                driver.quit();
+            }
+            throw new RuntimeException("Failed to setup driver: " + e.getMessage(), e);
         }
     }
 
-    @BeforeMethod
+    @BeforeMethod()
     public void setupMethod(Method method) {
 
-        //clear cookies and load url
-        driver.manage().deleteAllCookies();
-        driver.get(ConfigReader.get("baseUrl"));
+        try{
+            //clear cookies and load url
+            driver.manage().deleteAllCookies();
+            driver.get(ConfigReader.get("baseUrl"));
 
-        // Set driver in ExtentReportManager for this thread
-        ExtentReportManager.setDriver(driver);
-        // Create test in ExtentReport with method name
-        String testName = method.getName();
-        String description = "Executing test: " + testName;
+            // Set driver in ExtentReportManager for this thread
+            ExtentReportManager.setDriver(driver);
+            // Create test in ExtentReport with method name
+            String testName = method.getName();
+            String description = "Executing test: " + testName;
 
-        // Get test description from @Test annotation if available
-        if (method.isAnnotationPresent(Test.class)) {
-            Test testAnnotation = method.getAnnotation(Test.class);
-            if (!testAnnotation.description().isEmpty()) {
-                description = testAnnotation.description();
+            // Get test description from @Test annotation if available
+            if (method.isAnnotationPresent(Test.class)) {
+                Test testAnnotation = method.getAnnotation(Test.class);
+                if (!testAnnotation.description().isEmpty()) {
+                    description = testAnnotation.description();
+                }
             }
+
+            ExtentReportManager.createTest(testName, description);
+            ExtentReportManager.logInfo("Test Started: " + testName);
+        }catch (Exception e){
+            throw new RuntimeException("Failed in SetupMethod: " + e.getMessage(), e);
         }
 
-        ExtentReportManager.createTest(testName, description);
-        ExtentReportManager.logInfo("Test Started: " + testName);
     }
 
     @AfterMethod
@@ -88,14 +97,14 @@ public class BaseTest extends PageInitializer {
         driver.get(ConfigReader.get("baseUrl"));
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void tearDownClass() {
         if (driver != null) {
             driver.quit();
         }
     }
 
-    @AfterSuite
+    @AfterSuite(alwaysRun = true)
     public void tearDownSuite() {
         // Flush the ExtentReports
         ExtentReportManager.flushReports();
